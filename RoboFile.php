@@ -84,7 +84,7 @@ class RoboFile extends RoboTasks
         $this->_copyDir('res_search_service/views', 'dist/service/views');
 
         // add multiple handlers, one for each API endpoint, but all
-        // of which require() the old index.php file
+        // of which require() the old (renamed) index.php file
         $this->_copyDir('handlers', 'dist/service');
 
         // copy the old index.php (single page app) script to a new location
@@ -94,12 +94,17 @@ class RoboFile extends RoboTasks
              ->copy('res_search_service/index.php', 'dist/service/app.inc.php')
              ->run();
 
-        // comment out routes
+        // comment out routes in app.inc.php
         $this->strReplace('dist/service/app.inc.php', '/\$app->get\(/', '//');
 
         // add a new route which uses a variable to determine the handler;
-        // this variable is set in the various handler scripts
+        // this variable is set in the new handler scripts
         $this->strReplace('dist/service/app.inc.php', '/\$app->run/', '\$app->get(\'/\', \$handler);' . "\n" . '\$app->run');
+
+        // rewrite service URL in the UI HTML to point at Moodle
+        $this->strReplace('dist/service/views/ui.html',
+                          '/http:\/\/\' \+ window\.location\.host \+ \'\/api\/\'/',
+                          'http://\' + window.location.host + \'/repository/res/service/\'');
     }
 
     public function thirdparty()
