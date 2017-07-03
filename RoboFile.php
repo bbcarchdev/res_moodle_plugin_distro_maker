@@ -61,9 +61,10 @@ class RoboFile extends RoboTasks
         }
     }
 
-    public function compose()
+    public function deps()
     {
         $this->taskComposerInstall()->dir('res_search_service')->noDev()->run();
+        $this->taskBowerInstall()->dir('res_search_service')->run();
     }
 
     public function copyplugin()
@@ -76,6 +77,7 @@ class RoboFile extends RoboTasks
         $this->_copyDir('res_search_service/js', 'dist/service/js');
         $this->_copyDir('res_search_service/lib', 'dist/service/lib');
         $this->_copyDir('res_search_service/vendor', 'dist/service/vendor');
+        $this->_copyDir('res_search_service/bower_components', 'dist/service/bower_components');
         $this->_copyDir('res_search_service/views', 'dist/service/views');
 
         $this->taskFilesystemStack()
@@ -128,7 +130,7 @@ class RoboFile extends RoboTasks
     public function all()
     {
         $this->clone();
-        $this->compose();
+        $this->deps();
         $this->copyplugin();
         $this->copyservice();
         $this->replace();
