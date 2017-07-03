@@ -101,10 +101,8 @@ class RoboFile extends RoboTasks
         // this variable is set in the new handler scripts
         $this->strReplace('dist/service/app.inc.php', '/\$app->run/', '\$app->get(\'/\', \$handler);' . "\n" . '\$app->run');
 
-        // rewrite service URL in the UI HTML to point at Moodle
-        $this->strReplace('dist/service/views/ui.html',
-                          '/http:\/\/\' \+ window\.location\.host \+ \'\/api\/\'/',
-                          'http://\' + window.location.host + \'/repository/res/service/\'');
+        // set the API_PREFIX to the route on the Moodle server
+        $this->strReplace('dist/service/app.inc.php', '/API_PREFIX = \'\/api\/\'/', 'API_PREFIX = \'/repository/res/service/\'');
     }
 
     public function thirdparty()

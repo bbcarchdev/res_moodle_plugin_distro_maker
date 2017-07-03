@@ -17,6 +17,9 @@
  * limitations under the License.
  */
 
+// prefix for all service URIs
+const API_PREFIX = '/repository/res/service/';
+
 require_once(__DIR__ . '/vendor/autoload.php');
 
 use \Slim\App as SlimApp;
@@ -31,13 +34,14 @@ $app = new SlimApp();
 $container = $app->getContainer();
 
 $container['Controller'] = function($container) use($client) {
-    return new Controller($client);
+    return new Controller($client, API_PREFIX);
 };
 
-//'/', 'Controller:home');
-//'/api/audiences', 'Controller:audiences');
-//'/api/search', 'Controller:search');
-//'/api/proxy', 'Controller:proxy');
+//API_PREFIX, 'Controller:home');
+//API_PREFIX . 'ui.html', 'Controller:home');
+//API_PREFIX . 'audiences', 'Controller:audiences');
+//API_PREFIX . 'search', 'Controller:search');
+//API_PREFIX . 'proxy', 'Controller:proxy');
 
 $app->get('/', $handler);
 $app->run();
