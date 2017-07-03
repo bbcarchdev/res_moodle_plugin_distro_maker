@@ -1,3 +1,3 @@
 <?php
-$handler = 'Controller:home';
+$handler = 'Controller:proxy';
 require_once('./app.inc.php');

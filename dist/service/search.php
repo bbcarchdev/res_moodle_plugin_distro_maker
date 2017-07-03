@@ -1,3 +1,3 @@
 <?php
-$handler = 'Controller:home';
+$handler = 'Controller:search';
 require_once('./app.inc.php');

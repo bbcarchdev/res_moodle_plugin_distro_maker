@@ -70,6 +70,9 @@ class RoboFile extends RoboTasks
     public function copyplugin()
     {
         $this->_copyDir('moodle-repository_res', 'dist');
+
+        // fix the PLUGINSERVICE_URL to point at the Moodle server
+        $this->strReplace('dist/lib.php', "/getenv\('PLUGINSERVICE_URL'\)/", "new moodle_url('/repository/res/service/')");
     }
 
     public function copyservice()
@@ -80,16 +83,23 @@ class RoboFile extends RoboTasks
         $this->_copyDir('res_search_service/bower_components', 'dist/service/bower_components');
         $this->_copyDir('res_search_service/views', 'dist/service/views');
 
-        $this->taskFilesystemStack()
-             ->copy('res_search_service/index.php', 'dist/service/index.php')
-             ->run();
-    }
+        // add multiple handlers, one for each API endpoint, but all
+        // of which require() the old index.php file
+        $this->_copyDir('handlers', 'dist/service');
 
-    public function replace()
-    {
-        $this->strReplace('dist/service/index.php', "/app->get\('\/api/", "app->get('/repository/res/service");
-        $this->strReplace('dist/service/index.php', "/app->get\('\/'/", "app->get('/repository/res/service/'");
-        $this->strReplace('dist/lib.php', "/getenv\('PLUGINSERVICE_URL'\)/", "new moodle_url('/repository/res/service/')");
+        // copy the old index.php (single page app) script to a new location
+        // to be used as a require()'d script
+        $this->taskFilesystemStack()
+             ->remove('dist/service/app.inc.php')
+             ->copy('res_search_service/index.php', 'dist/service/app.inc.php')
+             ->run();
+
+        // comment out routes
+        $this->strReplace('dist/service/app.inc.php', '/\$app->get\(/', '//');
+
+        // add a new route which uses a variable to determine the handler;
+        // this variable is set in the various handler scripts
+        $this->strReplace('dist/service/app.inc.php', '/\$app->run/', '\$app->get(\'/\', \$handler);' . "\n" . '\$app->run');
     }
 
     public function thirdparty()
@@ -120,6 +130,7 @@ class RoboFile extends RoboTasks
         file_put_contents('dist/thirdpartylibs.xml', $out);
     }
 
+    // remove files we don't need at runtime
     public function cleanupliblod()
     {
         $this->taskDeleteDir('dist/service/vendor/res/liblod/.git')->run();
@@ -133,7 +144,6 @@ class RoboFile extends RoboTasks
         $this->deps();
         $this->copyplugin();
         $this->copyservice();
-        $this->replace();
         $this->thirdparty();
         $this->cleanupliblod();
     }
