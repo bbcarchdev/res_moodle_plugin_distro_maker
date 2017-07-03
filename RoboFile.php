@@ -118,9 +118,11 @@ class RoboFile extends RoboTasks
         file_put_contents('dist/thirdpartylibs.xml', $out);
     }
 
-    public function removegit()
+    public function cleanupliblod()
     {
         $this->taskDeleteDir('dist/service/vendor/res/liblod/.git')->run();
+        $this->taskDeleteDir('dist/service/vendor/res/liblod/tests')->run();
+        $this->taskDeleteDir('dist/service/vendor/res/liblod/tools')->run();
     }
 
     public function all()
@@ -131,6 +133,6 @@ class RoboFile extends RoboTasks
         $this->copyservice();
         $this->replace();
         $this->thirdparty();
-        $this->removegit();
+        $this->cleanupliblod();
     }
 }
