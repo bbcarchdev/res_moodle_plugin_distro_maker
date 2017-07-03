@@ -1,0 +1,17 @@
+{
+    "name": "res/res_moodle_plugin_dist_bundler",
+    "type": "project",
+    "license": "Apache v2",
+    "authors": [
+        {
+            "name": "Elliot Smith",
+            "email": "elliot.smith@bbc.co.uk"
+        }
+    ],
+    "require": {
+        "mustache/mustache": "^2.11"
+    },
+    "require-dev": {
+        "consolidation/robo": "^1.1"
+    }
+}

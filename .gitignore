@@ -1,0 +1,5 @@
+moodle-repository_res
+res_search_service
+vendor
+!dist/service/vendor
+composer.lock
