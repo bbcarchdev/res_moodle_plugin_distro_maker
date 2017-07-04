@@ -45,7 +45,7 @@ class RoboFile extends RoboTasks
         else
         {
             $this->taskGitStack()
-                 ->cloneRepo('ssh://git@bitbucket.org/townxelliot/res_search_service.git')
+                 ->cloneRepo('https://townxelliot@bitbucket.org/townxelliot/res_search_service.git')
                  ->run();
         }
 
@@ -56,7 +56,7 @@ class RoboFile extends RoboTasks
         else
         {
             $this->taskGitStack()
-                 ->cloneRepo('ssh://git@bitbucket.org/townxelliot/moodle-repository_res.git')
+                 ->cloneRepo('https://townxelliot@bitbucket.org/townxelliot/moodle-repository_res.git')
                  ->run();
         }
     }
@@ -101,8 +101,16 @@ class RoboFile extends RoboTasks
         // this variable is set in the new handler scripts
         $this->strReplace('dist/service/app.inc.php', '/\$app->run/', '\$app->get(\'/\', \$handler);' . "\n" . '\$app->run');
 
-        // set the API_PREFIX to the route on the Moodle server
-        $this->strReplace('dist/service/app.inc.php', '/API_PREFIX = \'\/api\/\'/', 'API_PREFIX = \'/repository/res/service/\'');
+        // copy a custom capabilities.json file to the service root directory,
+        // to direct all requests for services to the individual php scripts
+        $this->taskFilesystemStack()
+             ->copy('capabilities.json', 'dist/service/capabilities.json')
+             ->run();
+
+        // remove files we don't need at runtime
+        $this->taskDeleteDir('dist/service/vendor/res/liblod/.git')->run();
+        $this->taskDeleteDir('dist/service/vendor/res/liblod/tests')->run();
+        $this->taskDeleteDir('dist/service/vendor/res/liblod/tools')->run();
     }
 
     public function thirdparty()
@@ -133,14 +141,6 @@ class RoboFile extends RoboTasks
         file_put_contents('dist/thirdpartylibs.xml', $out);
     }
 
-    // remove files we don't need at runtime
-    public function cleanupliblod()
-    {
-        $this->taskDeleteDir('dist/service/vendor/res/liblod/.git')->run();
-        $this->taskDeleteDir('dist/service/vendor/res/liblod/tests')->run();
-        $this->taskDeleteDir('dist/service/vendor/res/liblod/tools')->run();
-    }
-
     public function all()
     {
         $this->clone();
@@ -148,6 +148,5 @@ class RoboFile extends RoboTasks
         $this->copyplugin();
         $this->copyservice();
         $this->thirdparty();
-        $this->cleanupliblod();
     }
 }

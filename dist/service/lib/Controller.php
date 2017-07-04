@@ -32,14 +32,13 @@ class Controller
 {
     private $client;
 
-    // used to construct API URIs; e.g. if set to '/api/',
-    // search is at '/api/search', proxy at '/api/proxy' etc.
-    private $apiPrefix;
+    // map from endpoint names to paths
+    private $capabilities;
 
-    public function __construct($client, $apiPrefix='/api/')
+    public function __construct($client, $capabilities)
     {
         $this->client = $client;
-        $this->apiPrefix = $apiPrefix;
+        $this->capabilities = $capabilities;
     }
 
     // single HTML page: UI for searching Acropolis, showing search results, and
@@ -51,7 +50,7 @@ class Controller
     {
         $html = file_get_contents(__DIR__ . '/../views/ui.html');
 
-        $html = preg_replace('/__API_PREFIX__/', $this->apiPrefix, $html);
+        $html = preg_replace('/__CAPABILITIES__/', json_encode($this->capabilities), $html);
 
         $response->getBody()->write($html);
         return $response->withHeader('Content-Type', 'text/html')
@@ -81,7 +80,7 @@ class Controller
         // for each item in the results, construct a URI pointing at the plugin
         // service API, in the form
         // http://<plugin service domain and port>/api/proxy?uri=<topic URI>
-        $baseApiUri = $request->getUri()->withPath($this->apiPrefix . 'proxy');
+        $baseApiUri = $request->getUri()->withPath($this->capabilities['proxy']);
 
         foreach($result['items'] as $index => $item)
         {

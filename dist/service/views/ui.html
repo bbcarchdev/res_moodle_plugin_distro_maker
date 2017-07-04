@@ -246,12 +246,13 @@
         setBodyPaddingTop();
         $(window).resize(setBodyPaddingTop);
 
-        var endpoint = 'http://' + window.location.host + '__API_PREFIX__';
+        var host = 'http://' + window.location.host;
+        var capabilities = __CAPABILITIES__;
 
         // get the callback URL from the query params to this page
         var callbackUrl = URI(window.location).search(true)['callback'];
 
-        var app = window.App(endpoint, callbackUrl);
+        var app = window.App(host, capabilities, callbackUrl);
         app.init();
       });
     </script>

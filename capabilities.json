@@ -1,0 +1,6 @@
+{
+  "home": "/repository/res/service/",
+  "search": "/repository/res/service/search.php",
+  "proxy": "/repository/res/service/proxy.php",
+  "audiences": "/repository/res/service/audiences.php"
+}
