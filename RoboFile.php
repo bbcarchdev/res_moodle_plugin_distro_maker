@@ -141,6 +141,13 @@ class RoboFile extends RoboTasks
         file_put_contents('dist/thirdpartylibs.xml', $out);
     }
 
+    public function zip()
+    {
+        $this->taskPack('dist.zip')
+             ->addDir('res', 'dist')
+             ->run();
+    }
+
     public function all()
     {
         $this->clone();
@@ -148,5 +155,6 @@ class RoboFile extends RoboTasks
         $this->copyplugin();
         $this->copyservice();
         $this->thirdparty();
+        $this->zip();
     }
 }
