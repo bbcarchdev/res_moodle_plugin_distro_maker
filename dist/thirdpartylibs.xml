@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <libraries>
     <library>
+        <location>service</location>
+        <name>res_search_service</name>
+        <license>Apache v2</license>
+    </library>
+    <library>
         <location>service/vendor/container-interop/container-interop</location>
         <name>container-interop/container-interop</name>
         <license>MIT</license>
