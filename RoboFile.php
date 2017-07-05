@@ -147,7 +147,7 @@ class RoboFile extends RoboTasks
 
     public function zip()
     {
-        $this->taskPack('dist.zip')
+        $this->taskPack('repository_res.zip')
              ->addDir('res', 'dist')
              ->run();
     }
