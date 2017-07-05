@@ -23,7 +23,7 @@ class repository_res extends repository {
     public static function plugin_init() {
         $options = array(
             'name' => 'RES',
-            'pluginservice_url' => new moodle_url('/repository/res/service/')
+            'pluginservice_url' => '' . new moodle_url('/repository/res/service/')
         );
 
         $id = repository::static_function('res','create', 'res', 0,
@@ -57,7 +57,7 @@ class repository_res extends repository {
                            get_string('res:pluginservice_url', 'repository_res'),
                            array('size' => '60'));
         $mform->setType('pluginservice_url', PARAM_URL);
-        $mform->setDefault('pluginservice_url', new moodle_url('/repository/res/service/'));
+        $mform->setDefault('pluginservice_url', '' . new moodle_url('/repository/res/service/'));
         $mform->addRule('pluginservice_url', get_string('required'),
                         'required', null, 'client');
     }

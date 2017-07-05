@@ -72,7 +72,7 @@ class RoboFile extends RoboTasks
         $this->_copyDir('moodle-repository_res', 'dist');
 
         // fix the PLUGINSERVICE_URL to point at the Moodle server
-        $this->strReplace('dist/lib.php', "/getenv\('PLUGINSERVICE_URL'\)/", "new moodle_url('/repository/res/service/')");
+        $this->strReplace('dist/lib.php', "/getenv\('PLUGINSERVICE_URL'\)/", "'' . new moodle_url('/repository/res/service/')");
     }
 
     public function copyservice()

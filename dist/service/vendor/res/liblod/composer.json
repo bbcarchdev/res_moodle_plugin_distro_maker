@@ -1,8 +1,8 @@
 {
     "name": "res/liblod",
     "version": "0.0.1",
-    "type": "library",
-    "license": "GPL v3",
+    "type": "project",
+    "license": "Apache v2",
     "description": "A LOD client library.",
     "authors": [
         {
@@ -23,6 +23,7 @@
     },
     "require-dev": {
         "phpmd/phpmd": "^2.6",
-        "phpcheckstyle/phpcheckstyle": "^0.14.6"
+        "phpcheckstyle/phpcheckstyle": "^0.14.6",
+        "consolidation/robo": "^1.1"
     }
 }
