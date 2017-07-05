@@ -107,6 +107,10 @@ class RoboFile extends RoboTasks
              ->copy('capabilities.json', 'dist/service/capabilities.json')
              ->run();
 
+        // fix paths to JS, CSS, bower_components etc.
+        $this->strReplace('dist/service/views/ui.html', '/\.\.\/bower_components/', 'bower_components');
+        $this->strReplace('dist/service/views/ui.html', '/\.\.\/js/', 'js');
+
         // remove files we don't need at runtime
         $this->taskDeleteDir('dist/service/vendor/res/liblod/.git')->run();
         $this->taskDeleteDir('dist/service/vendor/res/liblod/tests')->run();
