@@ -61,6 +61,7 @@ $container['Controller'] = function($container) use($client, $capabilities) {
     return new Controller($client, $capabilities);
 };
 
+//'/', 'Controller:minimal');
 //$capabilities['minimal'], 'Controller:minimal');
 //$capabilities['audiences'], 'Controller:audiences');
 //$capabilities['search'], 'Controller:search');
