@@ -347,7 +347,7 @@
         "source": {
             "type": "git",
             "url": "https://townxelliot@bitbucket.org/townxelliot/res_liblod-php.git",
-            "reference": "5f7ff9b719d791c3bf9e3c3a16c61993cb466672"
+            "reference": "5b7d8eea358ed09160a14529cc2d37ff2476b8a7"
         },
         "require": {
             "easyrdf/easyrdf": "^0.9.1",
@@ -360,7 +360,7 @@
             "phpcheckstyle/phpcheckstyle": "^0.14.6",
             "phpmd/phpmd": "^2.6"
         },
-        "time": "2017-07-04T16:14:06+00:00",
+        "time": "2017-07-05T15:15:37+00:00",
         "type": "project",
         "installation-source": "source",
         "autoload": {

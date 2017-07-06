@@ -108,8 +108,8 @@ class RoboFile extends RoboTasks
              ->run();
 
         // fix paths to JS, CSS, bower_components etc.
-        $this->strReplace('dist/service/views/ui.html', '/\.\.\/bower_components/', 'bower_components');
-        $this->strReplace('dist/service/views/ui.html', '/\.\.\/js/', 'js');
+        $this->strReplace('dist/service/views/minimal.html', '/\.\.\/bower_components/', 'bower_components');
+        $this->strReplace('dist/service/views/minimal.html', '/\.\.\/js/', 'js');
 
         // remove files we don't need at runtime
         $this->taskDeleteDir('dist/service/vendor/res/liblod/.git')->run();

@@ -23,7 +23,6 @@ require_once(__DIR__ . '/../vendor/autoload.php');
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-use \GuzzleHttp\Psr7\stream_for;
 
 use \res\libres\RESMedia;
 use \res\libres\RESClient;
@@ -46,15 +45,14 @@ class Controller
     // call with /?callback=<callback URL>; when a resource is selected, the
     // UI is redirected to
     // <callback URL>?media=<JSON-encoded representation of the selected resource>
-    public function home(Request $request, Response $response)
+    public function minimal(Request $request, Response $response)
     {
-        $html = file_get_contents(__DIR__ . '/../views/ui.html');
+        $html = file_get_contents(__DIR__ . '/../views/minimal.html');
 
         $html = preg_replace('/__CAPABILITIES__/', json_encode($this->capabilities), $html);
 
         $response->getBody()->write($html);
-        return $response->withHeader('Content-Type', 'text/html')
-                        ->withHeader('Content-Location', '/ui.html');
+        return $response->withHeader('Content-Type', 'text/html');
     }
 
     // get all audiences known to Acropolis
@@ -97,19 +95,9 @@ class Controller
     {
         $topicUri = $request->getQueryParam('uri', $default=NULL);
         $media = $request->getQueryParam('media', $default=RESMedia::IMAGE);
-        $format = $request->getQueryParam('format', $default='json');
 
-        $result = $this->client->proxy($topicUri, $media, $format);
+        $result = $this->client->proxy($topicUri, $media);
 
-        if($format === 'json')
-        {
-            return $response->withJson($result);
-        }
-        else if($format === 'rdf')
-        {
-            $stream = \GuzzleHttp\Psr7\stream_for($result);
-            return $response->withBody($stream)
-                            ->withHeader('Content-Type', 'text/turtle');
-        }
+        return $response->withJson($result);
     }
 }
