@@ -62,7 +62,7 @@ class RESClient
 
         if(empty($converter))
         {
-            $converter = new RESTopicConverter();
+            $converter = new RESTopicConverter($this->lod);
         }
         $this->converter = $converter;
     }
@@ -74,14 +74,15 @@ class RESClient
     public function audiences()
     {
         $uri = rtrim($this->acropolisUrl, '/') . '/audiences';
-        $audiencesInstance = $this->lod[$uri];
+        $audiencesInstance = $this->lod->resolve($uri);
 
         $audiences = array();
 
-        foreach($audiencesInstance['rdfs:seeAlso'] as $audienceObject)
+        foreach($audiencesInstance->filter('rdfs:seeAlso') as $audienceObject)
         {
             $audienceUri = "$audienceObject";
-            $label = "{$this->lod[$audienceUri]['rdfs:label']}";
+            $audience = $this->lod->locate($audienceUri);
+            $label = "{$audience->filter('rdfs:label')}";
 
             if($label !== 'Everyone')
             {
@@ -120,19 +121,15 @@ class RESClient
 
         if($query)
         {
-            $uri = $this->acropolisUrl .
-                   '?limit=' . urlencode($limit) .
-                   '&media=' . urlencode($media) .
-                   '&q=' . urlencode($query);
-
-            if($offset > 0)
-            {
-                $uri .= '&offset=' . urlencode($offset);
-            }
+            // build URI
+            $uri = $this->acropolisUrl . '?';
 
             if(is_array($audiences))
             {
+                // the audiences array has to be sorted, as Acropolis sorts
+                // the querystring in the returned resource's URI alphabetically
                 $audiencesQuery = '';
+                sort($audiences);
                 foreach($audiences as $audience)
                 {
                     if($audiencesQuery !== '')
@@ -142,12 +139,24 @@ class RESClient
                     $audiencesQuery .= 'for=' . urlencode($audience);
                 }
 
-                $uri .= '&' . $audiencesQuery;
+                $uri .= $audiencesQuery . '&';
             }
+
+            $uri .= 'limit=' . urlencode($limit) .
+                    '&media=' . urlencode($media) ;
+
+            if($offset > 0)
+            {
+                $uri .= '&offset=' . urlencode($offset);
+            }
+
+            $uri .= '&q=' . urlencode($query);
 
             $result['acropolis_uri'] = $uri;
 
-            $searchResultResource = $this->lod[$uri];
+            // resolve the URI
+            $this->lod->fetch($uri);
+            $searchResultResource = $this->lod->locate(urldecode($uri));
 
             foreach($searchResultResource['olo:slot'] as $slot)
             {
@@ -218,12 +227,12 @@ class RESClient
         // find all the resources which could be useful;
         // if the proxy has olo:slot resources, we want their olo:items
         $slotItemUris = array();
-        $slotObjectResources = $proxy['olo:slot'];
+        $slotObjectResources = $proxy->filter('olo:slot');
 
         foreach($slotObjectResources as $slotObjectResource)
         {
             $slotResourceUri = "$slotObjectResource";
-            $slotResource = $this->lod[$slotResourceUri];
+            $slotResource = $this->lod->locate($slotResourceUri);
             $slotItemUris[] = "{$slotResource['olo:item']}";
         }
 
@@ -231,6 +240,6 @@ class RESClient
         // players
         $this->lod->fetchAll($slotItemUris);
 
-        return $this->converter->convert($proxyUri, $media, $slotItemUris, $this->lod);
+        return $this->converter->convert($proxyUri, $media, $slotItemUris);
     }
 }
