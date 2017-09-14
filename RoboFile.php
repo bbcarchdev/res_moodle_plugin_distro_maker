@@ -63,6 +63,7 @@ class RoboFile extends RoboTasks
 
     public function deps()
     {
+        $this->taskComposerUpdate()->dir('res_search_service')->run();
         $this->taskComposerInstall()->dir('res_search_service')->noDev()->run();
         $this->taskBowerInstall()->dir('res_search_service')->run();
     }
@@ -111,10 +112,10 @@ class RoboFile extends RoboTasks
         $this->strReplace('dist/service/views/minimal.html', '/\.\.\/bower_components/', 'bower_components');
         $this->strReplace('dist/service/views/minimal.html', '/\.\.\/js/', 'js');
 
-        // remove files we don't need at runtime
-        $this->taskDeleteDir('dist/service/vendor/res/liblod/.git')->run();
-        $this->taskDeleteDir('dist/service/vendor/res/liblod/tests')->run();
-        $this->taskDeleteDir('dist/service/vendor/res/liblod/tools')->run();
+        // remove bbcarchdev/liblod-php files we don't need at runtime
+        $this->taskDeleteDir('dist/service/vendor/bbcarchdev/liblod/.git')->run();
+        $this->taskDeleteDir('dist/service/vendor/bbcarchdev/liblod/tests')->run();
+        $this->taskDeleteDir('dist/service/vendor/bbcarchdev/liblod/tools')->run();
     }
 
     public function thirdparty()

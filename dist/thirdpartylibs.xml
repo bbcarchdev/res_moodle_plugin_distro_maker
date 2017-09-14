@@ -6,6 +6,12 @@
         <license>Apache v2</license>
     </library>
     <library>
+        <location>service/vendor/bbcarchdev/liblod</location>
+        <name>bbcarchdev/liblod</name>
+        <version>0.1.0</version>
+        <license>Apache v2</license>
+    </library>
+    <library>
         <location>service/vendor/container-interop/container-interop</location>
         <name>container-interop/container-interop</name>
         <license>MIT</license>

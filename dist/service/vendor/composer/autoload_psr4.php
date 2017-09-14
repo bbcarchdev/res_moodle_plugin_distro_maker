@@ -7,8 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'res\\libres\\' => array($baseDir . '/lib'),
-    'res\\liblod\\' => array($vendorDir . '/res/liblod/src'),
     'pietercolpaert\\hardf\\' => array($vendorDir . '/pietercolpaert/hardf/src'),
+    'bbcarchdev\\liblod\\' => array($vendorDir . '/bbcarchdev/liblod/src'),
     'Slim\\' => array($vendorDir . '/slim/slim/Slim'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit53597a811007214587021327a1b96f30
+class ComposerStaticInita520f27e0e70ecbd31ef17d44799241a
 {
     public static $files = array (
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
@@ -17,11 +17,14 @@ class ComposerStaticInit53597a811007214587021327a1b96f30
         'r' => 
         array (
             'res\\libres\\' => 11,
-            'res\\liblod\\' => 11,
         ),
         'p' => 
         array (
             'pietercolpaert\\hardf\\' => 21,
+        ),
+        'b' => 
+        array (
+            'bbcarchdev\\liblod\\' => 18,
         ),
         'S' => 
         array (
@@ -53,13 +56,13 @@ class ComposerStaticInit53597a811007214587021327a1b96f30
         array (
             0 => __DIR__ . '/../..' . '/lib',
         ),
-        'res\\liblod\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/res/liblod/src',
-        ),
         'pietercolpaert\\hardf\\' => 
         array (
             0 => __DIR__ . '/..' . '/pietercolpaert/hardf/src',
+        ),
+        'bbcarchdev\\liblod\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bbcarchdev/liblod/src',
         ),
         'Slim\\' => 
         array (
@@ -115,9 +118,9 @@ class ComposerStaticInit53597a811007214587021327a1b96f30
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit53597a811007214587021327a1b96f30::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit53597a811007214587021327a1b96f30::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit53597a811007214587021327a1b96f30::$prefixesPsr0;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita520f27e0e70ecbd31ef17d44799241a::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita520f27e0e70ecbd31ef17d44799241a::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInita520f27e0e70ecbd31ef17d44799241a::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

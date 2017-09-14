@@ -341,45 +341,6 @@
         "description": "A basic library for RDF1.1"
     },
     {
-        "name": "res/liblod",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://townxelliot@bitbucket.org/townxelliot/res_liblod-php.git",
-            "reference": "ee05e89bc615a020c86e63cafb44208d4aeb326e"
-        },
-        "require": {
-            "easyrdf/easyrdf": "^0.9.1",
-            "guzzlehttp/guzzle": "^6.2",
-            "guzzlehttp/psr7": "^1.4",
-            "pietercolpaert/hardf": "^0.1.1"
-        },
-        "require-dev": {
-            "consolidation/robo": "^1.1",
-            "phpcheckstyle/phpcheckstyle": "^0.14.6",
-            "phpmd/phpmd": "^2.6"
-        },
-        "time": "2017-07-10T09:04:07+00:00",
-        "type": "project",
-        "installation-source": "source",
-        "autoload": {
-            "psr-4": {
-                "res\\liblod\\": "src/"
-            }
-        },
-        "license": [
-            "Apache v2"
-        ],
-        "authors": [
-            {
-                "name": "Elliot Smith",
-                "email": "elliot.smith@bbc.co.uk"
-            }
-        ],
-        "description": "A LOD client library."
-    },
-    {
         "name": "psr/container",
         "version": "1.0.0",
         "version_normalized": "1.0.0.0",
@@ -509,58 +470,6 @@
         ]
     },
     {
-        "name": "pimple/pimple",
-        "version": "v3.1.0",
-        "version_normalized": "3.1.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/silexphp/Pimple.git",
-            "reference": "279b56046fb368deacf77e2f8f3bdcea45cc367a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/silexphp/Pimple/zipball/279b56046fb368deacf77e2f8f3bdcea45cc367a",
-            "reference": "279b56046fb368deacf77e2f8f3bdcea45cc367a",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0",
-            "psr/container": "^1.0"
-        },
-        "require-dev": {
-            "symfony/phpunit-bridge": "^3.2"
-        },
-        "time": "2017-07-03T14:06:46+00:00",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "3.1.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Pimple": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            }
-        ],
-        "description": "Pimple, a simple Dependency Injection Container",
-        "homepage": "http://pimple.sensiolabs.org",
-        "keywords": [
-            "container",
-            "dependency injection"
-        ]
-    },
-    {
         "name": "slim/slim",
         "version": "3.8.1",
         "version_normalized": "3.8.1.0",
@@ -632,5 +541,103 @@
             "micro",
             "router"
         ]
+    },
+    {
+        "name": "pimple/pimple",
+        "version": "v3.2.2",
+        "version_normalized": "3.2.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/silexphp/Pimple.git",
+            "reference": "4d45fb62d96418396ec58ba76e6f065bca16e10a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/silexphp/Pimple/zipball/4d45fb62d96418396ec58ba76e6f065bca16e10a",
+            "reference": "4d45fb62d96418396ec58ba76e6f065bca16e10a",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0",
+            "psr/container": "^1.0"
+        },
+        "require-dev": {
+            "symfony/phpunit-bridge": "^3.2"
+        },
+        "time": "2017-07-23T07:32:15+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.2.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Pimple": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            }
+        ],
+        "description": "Pimple, a simple Dependency Injection Container",
+        "homepage": "http://pimple.sensiolabs.org",
+        "keywords": [
+            "container",
+            "dependency injection"
+        ]
+    },
+    {
+        "name": "bbcarchdev/liblod",
+        "version": "0.1.0",
+        "version_normalized": "0.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bbcarchdev/liblod-php.git",
+            "reference": "4526192c36ec2599d41b2206cb8842c77ca97f5c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bbcarchdev/liblod-php/zipball/4526192c36ec2599d41b2206cb8842c77ca97f5c",
+            "reference": "4526192c36ec2599d41b2206cb8842c77ca97f5c",
+            "shasum": ""
+        },
+        "require": {
+            "easyrdf/easyrdf": "^0.9.1",
+            "guzzlehttp/guzzle": "^6.2",
+            "guzzlehttp/psr7": "^1.4",
+            "pietercolpaert/hardf": "^0.1.1"
+        },
+        "require-dev": {
+            "consolidation/robo": "^1.1",
+            "phpcheckstyle/phpcheckstyle": "^0.14.6",
+            "phpmd/phpmd": "^2.6"
+        },
+        "time": "2017-09-13T16:31:52+00:00",
+        "type": "project",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "bbcarchdev\\liblod\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache v2"
+        ],
+        "authors": [
+            {
+                "name": "Elliot Smith",
+                "email": "elliot.smith@bbc.co.uk"
+            }
+        ],
+        "description": "A LOD client library."
     }
 ]

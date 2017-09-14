@@ -21,8 +21,8 @@ namespace res\libres;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
-use \res\liblod\LOD;
-use \res\liblod\Rdf;
+use \bbcarchdev\liblod\LOD;
+use \bbcarchdev\liblod\Rdf;
 use \res\libres\RESTopicConverter;
 
 /**
@@ -43,7 +43,7 @@ class RESClient
      * Constructor.
      *
      * @param string $acropolisUrl
-     * @param \res\liblod\LOD $lod
+     * @param \bbcarchdev\liblod\LOD $lod
      * @param \res\libres\RESTopicConverter $converter
      */
     public function __construct($acropolisUrl=NULL, $lod=NULL, $converter=NULL)
@@ -136,7 +136,13 @@ class RESClient
                     {
                         $audiencesQuery .= '&';
                     }
-                    $audiencesQuery .= 'for=' . urlencode($audience);
+
+                    // only the fragment identifier needs to be URL-encoded:
+                    // if the whole audience URI is encoded, the search result
+                    // returned by RES has a URI which has un-encoded audience
+                    // URIs in its querystring (except for the '#' which stays
+                    // as '%23'), so you can't find it
+                    $audiencesQuery .= 'for=' . str_replace('#', '%23', $audience);
                 }
 
                 $uri .= $audiencesQuery . '&';
@@ -156,7 +162,7 @@ class RESClient
 
             // resolve the URI
             $this->lod->fetch($uri);
-            $searchResultResource = $this->lod->locate(urldecode($uri));
+            $searchResultResource = $this->lod->locate($uri);
 
             foreach($searchResultResource['olo:slot'] as $slot)
             {
