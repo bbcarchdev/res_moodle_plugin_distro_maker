@@ -79,9 +79,9 @@ class Controller
 
         $result = $this->client->search($query, $media, $limit, $offset, $audiences);
 
-        // for each item in the results, construct a URI pointing at the plugin
+        // for each item in the results, construct a URI pointing at the search
         // service API, in the form
-        // http://<plugin service domain and port>/proxy?uri=<topic URI>
+        // http://<search service domain and port>/proxy?uri=<topic URI>
         // (where '/proxy' comes from the capabilities mapping for this Controller)
         $baseApiUri = $request->getUri()->withPath($this->capabilities['proxy']);
 

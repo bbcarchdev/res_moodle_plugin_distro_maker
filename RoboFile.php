@@ -73,7 +73,9 @@ class RoboFile extends RoboTasks
         $this->_copyDir('moodle-repository_res', 'dist');
 
         // fix the PLUGINSERVICE_URL to point at the Moodle server
-        $this->strReplace('dist/lib.php', "/getenv\('PLUGINSERVICE_URL'\)/", "'' . new moodle_url('/repository/res/service/')");
+        $this->strReplace('dist/lib.php',
+                          "/getenv\('PLUGINSERVICE_URL'\)/",
+                          "'' . new moodle_url('/repository/res/service/')");
     }
 
     public function copyservice()
@@ -81,36 +83,22 @@ class RoboFile extends RoboTasks
         $this->_copyDir('res_search_service/js', 'dist/service/js');
         $this->_copyDir('res_search_service/lib', 'dist/service/lib');
         $this->_copyDir('res_search_service/vendor', 'dist/service/vendor');
-        $this->_copyDir('res_search_service/bower_components', 'dist/service/bower_components');
+        $this->_copyDir('res_search_service/bower_components',
+                        'dist/service/bower_components');
         $this->_copyDir('res_search_service/views', 'dist/service/views');
 
         // add multiple handlers, one for each API endpoint, but all
-        // of which require() the old (renamed) index.php file
+        // of which require() a modified version of the index.php file
+        // (here renamed to app.inc.php)
         $this->_copyDir('handlers', 'dist/service');
 
-        // copy the old index.php (single page app) script to a new location
-        // to be used as a require()'d script
-        $this->taskFilesystemStack()
-             ->remove('dist/service/app.inc.php')
-             ->copy('res_search_service/index.php', 'dist/service/app.inc.php')
-             ->run();
-
-        // comment out routes in app.inc.php
-        $this->strReplace('dist/service/app.inc.php', '/\$app->get\(/', '//');
-
-        // add a new route which uses a variable to determine the handler;
-        // this variable is set in the new handler scripts
-        $this->strReplace('dist/service/app.inc.php', '/\$app->run/', '\$app->get(\'/\', \$handler);' . "\n" . '\$app->run');
-
-        // copy a custom capabilities.json file to the service root directory,
-        // to direct all requests for services to the individual php scripts
-        $this->taskFilesystemStack()
-             ->copy('capabilities.json', 'dist/service/capabilities.json')
-             ->run();
-
         // fix paths to JS, CSS, bower_components etc.
-        $this->strReplace('dist/service/views/minimal.html', '/\.\.\/bower_components/', 'bower_components');
-        $this->strReplace('dist/service/views/minimal.html', '/\.\.\/js/', 'js');
+        $this->strReplace('dist/service/views/minimal.html',
+                          '/\.\.\/bower_components/',
+                          'bower_components');
+        $this->strReplace('dist/service/views/minimal.html',
+                          '/\.\.\/js/',
+                          'js');
 
         // remove bbcarchdev/liblod-php files we don't need at runtime
         $this->taskDeleteDir('dist/service/vendor/bbcarchdev/liblod/.git')->run();
@@ -118,6 +106,8 @@ class RoboFile extends RoboTasks
         $this->taskDeleteDir('dist/service/vendor/bbcarchdev/liblod/tools')->run();
     }
 
+    // figure out which third party PHP libraries we're using and make
+    // a Moodle thirdpartylibs.xml file
     public function thirdparty()
     {
         $template = file_get_contents('thirdpartylibs.xml.tpl');
