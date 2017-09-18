@@ -67,4 +67,20 @@
         <name>slim/slim</name>
         <license>MIT</license>
     </library>
+    <library>
+        <location>service/bower_components/bootstrap</location>
+        <name>bootstrap</name>
+        <license>MIT</license>
+    </library>
+    <library>
+        <location>service/bower_components/jquery</location>
+        <name>jquery</name>
+        <license>MIT</license>
+    </library>
+    <library>
+        <location>service/bower_components/urijs</location>
+        <name>urijs</name>
+        <version>1.18.10</version>
+        <license>MIT</license>
+    </library>
 </libraries>

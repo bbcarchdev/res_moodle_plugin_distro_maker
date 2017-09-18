@@ -106,26 +106,41 @@ class RoboFile extends RoboTasks
         $this->taskDeleteDir('dist/service/vendor/bbcarchdev/liblod/tools')->run();
     }
 
-    // figure out which third party PHP libraries we're using and make
-    // a Moodle thirdpartylibs.xml file
+    // figure out which third party composer and bower libraries we're using and
+    // make a Moodle thirdpartylibs.xml file with the results
     public function thirdparty()
     {
         $template = file_get_contents('thirdpartylibs.xml.tpl');
         $libraries = [];
 
-        $libraryDirs = glob('dist/service/vendor/*/*', GLOB_ONLYDIR);
-        foreach($libraryDirs as $libraryDir)
+        // composer libraries
+        $composerLibraryDirs = glob('dist/service/vendor/*/*', GLOB_ONLYDIR);
+        foreach($composerLibraryDirs as $composerLibraryDir)
         {
-            if(preg_match('/composer/', $libraryDir))
+            // ignore the composer directory
+            if(preg_match('/composer/', $composerLibraryDir))
             {
                 continue;
             }
 
-            $composerFile = $libraryDir . '/composer.json';
+            $composerFile = $composerLibraryDir . '/composer.json';
             if(file_exists($composerFile))
             {
                 $obj = json_decode(file_get_contents($composerFile));
-                $obj->location = preg_replace('/dist\//', '', $libraryDir);
+                $obj->location = preg_replace('/dist\//', '', $composerLibraryDir);
+                $libraries[] = $obj;
+            }
+        }
+
+        // bower components
+        $bowerLibraryDirs = glob('dist/service/bower_components/*', GLOB_ONLYDIR);
+        foreach($bowerLibraryDirs as $bowerLibraryDir)
+        {
+            $bowerFile = $bowerLibraryDir . '/bower.json';
+            if(file_exists($bowerFile))
+            {
+                $obj = json_decode(file_get_contents($bowerFile));
+                $obj->location = preg_replace('/dist\//', '', $bowerLibraryDir);
                 $libraries[] = $obj;
             }
         }
