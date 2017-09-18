@@ -63,12 +63,6 @@
         <license>MIT</license>
     </library>
     <library>
-        <location>service/vendor/res/liblod</location>
-        <name>res/liblod</name>
-        <version>0.0.1</version>
-        <license>Apache v2</license>
-    </library>
-    <library>
         <location>service/vendor/slim/slim</location>
         <name>slim/slim</name>
         <license>MIT</license>
