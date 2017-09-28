@@ -1,6 +1,0 @@
-{
-  "minimal": "/repository/res/service/index.php",
-  "search": "/repository/res/service/search.php",
-  "proxy": "/repository/res/service/proxy.php",
-  "audiences": "/repository/res/service/audiences.php"
-}

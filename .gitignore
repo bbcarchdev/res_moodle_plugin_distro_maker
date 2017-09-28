@@ -1,6 +1,7 @@
 **.DS_Store
-moodle-repository_res
-res_search_service
+/moodle-repository_res
+/res_search_service
 vendor
-!dist/service/vendor
+dist
 composer.lock
+repository_res.zip
