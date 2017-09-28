@@ -59,11 +59,12 @@ Note that the repo contains checked-in versions of the `dist/` and
 
 ## Author
 
-[Elliot Smith](https://github.com/townxelliot)
+[Elliot Smith](https://github.com/townxelliot) - elliot.smith@bbc.co.uk
 
 ## Licence
 
 Copyright © 2017 BBC
 
-res_moodle_plugin_distro_maker is licensed under the terms of the Apache
-License, Version 2.0 (see LICENCE-APACHE.txt).
+This project is licensed under the terms of the
+[Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+(see LICENCE-APACHE.txt).
