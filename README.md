@@ -1,6 +1,11 @@
 # RES Moodle plugin distro maker
 
-A RES Moodle plugin setup is usually composed of two pieces:
+[The Research and Education Space (RES)](http://res.space/) is a project
+to provide educational users with access to public archives. The RES Moodle
+plugin enables Moodle course administrators to add RES media resources from
+those public archives to Moodle courses.
+
+For the RES Moodle plugin to work, two components must be in place:
 
 *   res_search_service
 
@@ -14,23 +19,20 @@ A RES Moodle plugin setup is usually composed of two pieces:
 
 *   moodle-repository_res
 
-    This is the core part of the code which interfaces between Moodle and the
-    res_search_service.
+    This is the core part of plugin code which interfaces between Moodle and the
+    res_search_service. It is installed into a Moodle environment using the
+    [standard plugin installation mechanism](https://docs.moodle.org/33/en/Installing_plugins).
 
-The usual arrangement for using the RES Moodle plugin is as follows:
+These two components can be installed on separate hosts. However, to make
+installation simpler, the RES Moodle plugin distro maker tool
+combines the components into a single distributable Moodle plugin.
+The resulting plugin runs the res_search_service inside the Moodle installation,
+hosted under the same directory as the moodle-repository_res plugin code.
 
-* Install moodle-repository_res into Moodle as a plugin.
-* Run res_search_service on a separate web host.
-* Configure the plugin to send its requests to res_search_service.
-
-RES Moodle plugin distro maker simplifies this arrangement so that the Moodle
-plugin and the res_search_service run from the same folder on the Moodle host.
-This removes the need for separate hosting for res_search_service.
-
-The tool does this by creating a Moodle plugin folder layout from the RES
-Moodle plugin and the RES search service repositories. Some of the files in
-res_search_service are then patched to fix routing inside the res_search_service
-app, so that they correctly point at Moodle URLs.
+This is done by making a Moodle plugin folder layout from the moodle-repository_res
+and res_search_service repositories. Then, some of the files in
+res_search_service are replaced to fix routing inside the res_search_service
+app, so that they correctly point at Moodle URLs (see `handlers/` directory).
 
 Finally, a zip file is created. This is a standalone distributable Moodle plugin
 (distro) which can be published on
@@ -38,9 +40,10 @@ Finally, a zip file is created. This is a standalone distributable Moodle plugin
 downloaded and installed via the Moodle admin interface, the same way as any
 other plugin.
 
-Under normal circumstances, an end user doesn't need to use RES Moodle plugin
-distro maker at all: they just download a zip file from the Moodle plugin
-registry. We merely open sourced the distro maker for the curious.
+Under normal circumstances, a Moodle administrator doesn't need to use the RES
+Moodle plugin distro maker tool at all: they can just download a zip file from
+the Moodle plugin registry. We have merely made this tool open-source for the
+curious.
 
 ## Building the distro
 
@@ -49,13 +52,10 @@ composer install
 ./vendor/bin/robo all
 ```
 
-Once finished, `dist` contains the Moodle plugin + the RES search service,
+Once finished, `dist` contains the Moodle plugin and the RES search service,
 configured in such a way that they can both be deployed to Moodle as
 a single plugin. The `repository_res.zip` is a zipped version of the `dist`
 directory.
-
-Note that the repo contains checked-in versions of the `dist/` and
-`repository_res.zip` files. Building the distro will overwrite these files.
 
 ## Author
 

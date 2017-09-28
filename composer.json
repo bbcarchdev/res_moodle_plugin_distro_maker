@@ -1,7 +1,7 @@
 {
-    "name": "res/res_moodle_plugin_dist_bundler",
+    "name": "res/res_moodle_plugin_distro_maker",
     "type": "project",
-    "license": "Apache v2",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Elliot Smith",

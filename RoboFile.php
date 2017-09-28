@@ -23,6 +23,10 @@ class RoboFile extends RoboTasks
 {
     private function strReplace($file, $regex, $replacement)
     {
+        if (!file_exists($file)) {
+            throw new Exception("Cannot replace strings in $file as it doesn't exist");
+        }
+
         $content = file_get_contents($file);
         $newContent = preg_replace($regex, $replacement, $content);
         file_put_contents($file, $newContent);
@@ -38,23 +42,23 @@ class RoboFile extends RoboTasks
 
     public function clone()
     {
-        if(file_exists('res_search_service'))
-        {
-            $this->taskGitStack()->dir('res_search_service')->pull()->run();
-        }
-        else
-        {
+        if(file_exists('res_search_service')) {
+            $this->taskGitStack()
+                 ->dir('res_search_service')
+                 ->pull()
+                 ->run();
+        } else {
             $this->taskGitStack()
                  ->cloneRepo('https://townxelliot@bitbucket.org/townxelliot/res_search_service.git')
                  ->run();
         }
 
-        if(file_exists('moodle-repository_res'))
-        {
-            $this->taskGitStack()->dir('moodle-repository_res')->pull()->run();
-        }
-        else
-        {
+        if(file_exists('moodle-repository_res')) {
+            $this->taskGitStack()
+                 ->dir('moodle-repository_res')
+                 ->pull()
+                 ->run();
+        } else {
             $this->taskGitStack()
                  ->cloneRepo('https://townxelliot@bitbucket.org/townxelliot/moodle-repository_res.git')
                  ->run();
@@ -73,9 +77,11 @@ class RoboFile extends RoboTasks
         $this->_copyDir('moodle-repository_res', 'dist');
 
         // fix the PLUGINSERVICE_URL to point at the Moodle server
-        $this->strReplace('dist/lib.php',
-                          "/getenv\('PLUGINSERVICE_URL'\)/",
-                          "'' . new moodle_url('/repository/res/service/')");
+        $this->strReplace(
+            'dist/lib.php',
+            "/getenv\('PLUGINSERVICE_URL'\)/",
+            "'' . new moodle_url('/repository/res/service/')"
+        );
     }
 
     public function copyservice()
@@ -83,8 +89,10 @@ class RoboFile extends RoboTasks
         $this->_copyDir('res_search_service/js', 'dist/service/js');
         $this->_copyDir('res_search_service/lib', 'dist/service/lib');
         $this->_copyDir('res_search_service/vendor', 'dist/service/vendor');
-        $this->_copyDir('res_search_service/bower_components',
-                        'dist/service/bower_components');
+        $this->_copyDir(
+            'res_search_service/bower_components',
+            'dist/service/bower_components'
+        );
         $this->_copyDir('res_search_service/views', 'dist/service/views');
 
         // add multiple handlers, one for each API endpoint, but all
@@ -93,12 +101,16 @@ class RoboFile extends RoboTasks
         $this->_copyDir('handlers', 'dist/service');
 
         // fix paths to JS, CSS, bower_components etc.
-        $this->strReplace('dist/service/views/minimal.html',
-                          '/\.\.\/bower_components/',
-                          'bower_components');
-        $this->strReplace('dist/service/views/minimal.html',
-                          '/\.\.\/js/',
-                          'js');
+        $this->strReplace(
+            'dist/service/views/minimal.html',
+            '/\.\.\/bower_components/',
+            'bower_components'
+        );
+        $this->strReplace(
+            'dist/service/views/minimal.html',
+            '/\.\.\/js/',
+            'js'
+        );
 
         // remove bbcarchdev/liblod-php files we don't need at runtime
         $this->taskDeleteDir('dist/service/vendor/bbcarchdev/liblod/.git')->run();
@@ -115,17 +127,14 @@ class RoboFile extends RoboTasks
 
         // composer libraries
         $composerLibraryDirs = glob('dist/service/vendor/*/*', GLOB_ONLYDIR);
-        foreach($composerLibraryDirs as $composerLibraryDir)
-        {
+        foreach ($composerLibraryDirs as $composerLibraryDir) {
             // ignore the composer directory
-            if(preg_match('/composer/', $composerLibraryDir))
-            {
+            if (preg_match('/composer/', $composerLibraryDir)) {
                 continue;
             }
 
             $composerFile = $composerLibraryDir . '/composer.json';
-            if(file_exists($composerFile))
-            {
+            if (file_exists($composerFile)) {
                 $obj = json_decode(file_get_contents($composerFile));
                 $obj->location = preg_replace('/dist\//', '', $composerLibraryDir);
                 $libraries[] = $obj;
@@ -134,11 +143,9 @@ class RoboFile extends RoboTasks
 
         // bower components
         $bowerLibraryDirs = glob('dist/service/bower_components/*', GLOB_ONLYDIR);
-        foreach($bowerLibraryDirs as $bowerLibraryDir)
-        {
+        foreach ($bowerLibraryDirs as $bowerLibraryDir) {
             $bowerFile = $bowerLibraryDir . '/bower.json';
-            if(file_exists($bowerFile))
-            {
+            if (file_exists($bowerFile)) {
                 $obj = json_decode(file_get_contents($bowerFile));
                 $obj->location = preg_replace('/dist\//', '', $bowerLibraryDir);
                 $libraries[] = $obj;
@@ -153,9 +160,7 @@ class RoboFile extends RoboTasks
 
     public function zip()
     {
-        $this->taskPack('repository_res.zip')
-             ->addDir('res', 'dist')
-             ->run();
+        $this->taskPack('repository_res.zip')->addDir('res', 'dist')->run();
     }
 
     public function all()
