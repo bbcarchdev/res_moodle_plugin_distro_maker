@@ -21,6 +21,9 @@ use \Robo\Tasks as RoboTasks;
 
 class RoboFile extends RoboTasks
 {
+    const res_search_service_repo = 'https://github.com/bbcarchdev/res_search_service';
+    const moodle_repository_res_repo = 'https://github.com/bbcarchdev/moodle-repository_res';
+
     private function strReplace($file, $regex, $replacement)
     {
         if (!file_exists($file)) {
@@ -49,7 +52,7 @@ class RoboFile extends RoboTasks
                  ->run();
         } else {
             $this->taskGitStack()
-                 ->cloneRepo('https://townxelliot@bitbucket.org/townxelliot/res_search_service.git')
+                 ->cloneRepo(RoboFile::res_search_service_repo)
                  ->run();
         }
 
@@ -60,7 +63,7 @@ class RoboFile extends RoboTasks
                  ->run();
         } else {
             $this->taskGitStack()
-                 ->cloneRepo('https://townxelliot@bitbucket.org/townxelliot/moodle-repository_res.git')
+                 ->cloneRepo(RoboFile::moodle_repository_res_repo)
                  ->run();
         }
     }
@@ -82,6 +85,10 @@ class RoboFile extends RoboTasks
             "/getenv\('PLUGINSERVICE_URL'\)/",
             "'' . new moodle_url('/repository/res/service/')"
         );
+
+        // remove .git and screenshots dirs from dist
+        $this->taskDeleteDir('dist/.git')->run();
+        $this->taskDeleteDir('dist/screenshots')->run();
     }
 
     public function copyservice()
