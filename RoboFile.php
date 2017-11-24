@@ -93,6 +93,7 @@ class RoboFile extends RoboTasks
 
     public function copyservice()
     {
+        $this->_copyDir('res_search_service/assets', 'dist/service/assets');
         $this->_copyDir('res_search_service/js', 'dist/service/js');
         $this->_copyDir('res_search_service/lib', 'dist/service/lib');
         $this->_copyDir('res_search_service/vendor', 'dist/service/vendor');
