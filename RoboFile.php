@@ -72,7 +72,7 @@ class RoboFile extends RoboTasks
     {
         $this->taskComposerUpdate()->dir('res_search_service')->run();
         $this->taskComposerInstall()->dir('res_search_service')->noDev()->run();
-        $this->taskBowerInstall()->dir('res_search_service')->run();
+        $this->taskBowerInstall()->allowRoot()->dir('res_search_service')->run();
     }
 
     public function copyplugin()
