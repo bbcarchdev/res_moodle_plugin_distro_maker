@@ -124,6 +124,31 @@ class RoboFile extends RoboTasks
         $this->taskDeleteDir('dist/service/vendor/bbcarchdev/liblod/.git')->run();
         $this->taskDeleteDir('dist/service/vendor/bbcarchdev/liblod/tests')->run();
         $this->taskDeleteDir('dist/service/vendor/bbcarchdev/liblod/tools')->run();
+
+        // remove Pimple tests which cause lint error when passed through
+        // Moodle's lint checks
+        $this->taskDeleteDir('dist/service/vendor/pimple/pimple/ext/pimple/tests/')->run();
+    }
+
+    // remove .gitignore files from dist/
+    public function removegitignore()
+    {
+        $dir_iterator = new RecursiveDirectoryIterator('dist');
+        $iterator = new RecursiveIteratorIterator(
+            $dir_iterator,
+            RecursiveIteratorIterator::SELF_FIRST
+        );
+
+        $files_to_remove = [];
+
+        foreach ($iterator as $file) {
+            if ($file->getFilename() == '.gitignore')
+            {
+                $files_to_remove[] = $file->getPathname();
+            }
+        }
+
+        $this->taskFilesystemStack()->remove($files_to_remove)->run();
     }
 
     // figure out which third party composer and bower libraries we're using and
@@ -177,6 +202,7 @@ class RoboFile extends RoboTasks
         $this->deps();
         $this->copyplugin();
         $this->copyservice();
+        $this->removegitignore();
         $this->thirdparty();
         $this->zip();
     }
