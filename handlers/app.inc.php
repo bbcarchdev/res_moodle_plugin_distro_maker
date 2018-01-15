@@ -17,11 +17,15 @@
  * limitations under the License.
  */
 
-$paths = array(
-  "minimal" => "/repository/res/service/index.php",
-  "search" => "/repository/res/service/search.php",
-  "proxy" => "/repository/res/service/proxy.php",
-  "audiences" => "/repository/res/service/audiences.php"
+require(__DIR__ . '/../../../config.php');
+defined('MOODLE_INTERNAL') || die;
+require_login();
+
+$endpoints = array(
+  "minimal" => new moodle_url("/repository/res/service/index.php"),
+  "search" => new moodle_url("/repository/res/service/search.php"),
+  "proxy" => new moodle_url("/repository/res/service/proxy.php"),
+  "audiences" => new moodle_url("/repository/res/service/audiences.php")
 );
 
 // start the app
@@ -38,8 +42,8 @@ $client = new RESClient($acropolisUrl);
 $app = new SlimApp();
 $container = $app->getContainer();
 
-$container['Controller'] = function($container) use($client, $paths) {
-    return new Controller($client, $paths);
+$container['Controller'] = function($container) use($client, $endpoints) {
+    return new Controller($client, $endpoints);
 };
 
 // $handler is set by the handler script which was actually called
