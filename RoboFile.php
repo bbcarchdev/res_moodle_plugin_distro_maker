@@ -37,6 +37,7 @@ class RoboFile extends RoboTasks
 
     public function clean()
     {
+        $this->taskFilesystemStack()->remove('repository_res.zip')->run();
         $this->taskDeleteDir('res_search_service')->run();
         $this->taskDeleteDir('moodle-repository_res')->run();
         $this->taskDeleteDir('dist')->run();
