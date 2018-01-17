@@ -20,14 +20,11 @@
 require(__DIR__ . '/../../../config.php');
 require_login();
 
-$context = context_module::instance($cm->id);
-require_capability('repository/res:view', $context);
-
 $endpoints = array(
-  'minimal' => new moodle_url('/repository/res/service/index.php'),
-  'search' => new moodle_url('/repository/res/service/search.php'),
-  'proxy' => new moodle_url('/repository/res/service/proxy.php'),
-  'audiences' => new moodle_url('/repository/res/service/audiences.php')
+  'minimal' => (new moodle_url('/repository/res/service/index.php'))->out(false),
+  'search' => (new moodle_url('/repository/res/service/search.php'))->out(false),
+  'proxy' => (new moodle_url('/repository/res/service/proxy.php'))->out(false),
+  'audiences' => (new moodle_url('/repository/res/service/audiences.php'))->out(false)
 );
 
 // start the app
